@@ -3,6 +3,9 @@ import CategoryController from "../controllers/CategoryController";
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+    res.send("from category")
+});
 router.post("/add", CategoryController.add);
 router.get("/query", CategoryController.query);
 router.get("/list", CategoryController.list);
