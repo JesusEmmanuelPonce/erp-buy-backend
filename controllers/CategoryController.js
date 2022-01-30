@@ -28,7 +28,7 @@ export default {
 			const category = await models.Category.findOne({ _id });
 
 			if(!category) {
-				return res.status(404).json({
+				res.status(404).json({
 					success: false,
 					msg: "Category not found"
 				})
@@ -51,7 +51,9 @@ export default {
 	list: async(req, res) => {
 		try {
 			
-			const categories = await models.Category.find({});
+			const { name } = req.query;
+			
+			const categories = await models.Category.find({ 'name': new RegExp(name, "i") })
 
 			res.status(200).json({
 				success: true,
