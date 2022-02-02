@@ -17,8 +17,7 @@ app.use(express.urlencoded({extended: true}))
 app.use("/api/category", CategoryRoute);
 app.use("/api/article", ArticleRoute);
 
-const PORT = process.env.PORT || 5000
-
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log("Server run");

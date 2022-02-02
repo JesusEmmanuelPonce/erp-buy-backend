@@ -4,10 +4,11 @@ export default {
 
   	add: async(req, res) => {
     	try {
-      		await models.Category.create(req.body);
+      		await models.Article.create(req.body);
+
 			res.status(200).json({
 				success: true,
-				msg: "Category created"
+				msg: "Article created"
 			});
 
     	} catch (error) {
@@ -25,18 +26,18 @@ export default {
 
 		try {
 
-			const category = await models.Category.findOne({ _id });
+			const article = await models.Article.findOne({ _id }).populate("category", { name: 1 });
 
-			if(!category) {
+			if(!article) {
 				res.status(404).json({
 					success: false,
-					msg: "Category not found"
+					msg: "Article not found"
 				})
 			}
 
 			res.status(200).json({
 				success: true,
-				category
+				article
 			})
 			
 		} catch (error) {
@@ -51,13 +52,14 @@ export default {
 	list: async(req, res) => {
 		try {
 			
-			const { name } = req.query;
+			const name = req.query.name || "";
 			
-			const categories = await models.Category.find({ 'name': new RegExp(name, "i") })
+			const articles = await models.Article.find({ 'name': new RegExp(name, "i") })
+			.populate("category", { name: 1 });
 
 			res.status(200).json({
 				success: true,
-				categories
+				articles
 			})
 
 		} catch (error) {
@@ -75,11 +77,11 @@ export default {
 
 		try {
 
-			await models.Category.findByIdAndUpdate( _id, req.body, { new: true });
+			await models.Article.findByIdAndUpdate( _id, req.body, { new: true });
 
 			res.status(200).json({
 				success: true,
-				msg: "Category updated"
+				msg: "Article updated"
 			});
 			
 		} catch (error) {
@@ -97,11 +99,11 @@ export default {
 
 		try {
 
-			await models.Category.findByIdAndDelete({ _id });
+			await models.Article.findByIdAndDelete({ _id });
 
 			res.status(200).json({
 				success: true,
-				msg: "Category deleted"
+				msg: "Article deleted"
 			});
 			
 		} catch (error) {
@@ -119,7 +121,7 @@ export default {
 
 		try {
 
-			await models.Category.findByIdAndUpdate(_id, { status }, { new: true });
+			await models.Article.findByIdAndUpdate(_id, { status }, { new: true });
 
 			res.status(200).json({
 				success: 200,

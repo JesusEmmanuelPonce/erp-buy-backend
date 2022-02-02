@@ -5,6 +5,7 @@ export default {
   	add: async(req, res) => {
     	try {
       		await models.Category.create(req.body);
+
 			res.status(200).json({
 				success: true,
 				msg: "Category created"
@@ -51,7 +52,7 @@ export default {
 	list: async(req, res) => {
 		try {
 			
-			const { name } = req.query;
+			const name = req.query.name || "";
 			
 			const categories = await models.Category.find({ 'name': new RegExp(name, "i") })
 
